@@ -1,0 +1,32 @@
+sudo vim docker-nginx.yml
+
+
+
+- name: install docker
+  hosts: all
+  tasks:
+   - name: install python-pip
+     apt:
+      name: python-pip
+      state: present
+   - name: download & install docker and docker-py
+     shell: "{{item}}"
+     with_items:
+       - curl -fsSL https://get.docker.com -o get-docker.sh
+       - sh get-docker.sh
+       - pip install docker-py
+   - name: create nginx container
+     docker_container:
+      name:
+      image: nginx
+      ports:
+        "9090:80"
+
+:wq enter
+  to run playbook ansible-playbook docker-nginx.yml -b
+  
+to check nginx installed or not.
+open any browser
+    ipaddress of managed node:9090 
+
+
